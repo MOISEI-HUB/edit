@@ -261,7 +261,20 @@ function speak(text){
 
  const utterance=new SpeechSynthesisUtterance(text);
  utterance.lang="ru-RU";
- utterance.rate=0.95;
+ utterance.rate = 1.0;
+utterance.pitch = 0.9;
+
+const voices = speechSynthesis.getVoices();
+
+const russianVoices = voices.filter(voice =>
+  voice.lang.toLowerCase().startsWith("ru")
+);
+
+const maleVoice = russianVoices.find(voice =>
+  /pavel|dmitry|dmitri|yuri|georgiy|male/i.test(voice.name)
+);
+
+utterance.voice = maleVoice || russianVoices[0] || null;
 
  utterance.onend=function(){
   speaking=false;
