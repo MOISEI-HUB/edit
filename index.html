@@ -301,8 +301,61 @@ function showBluetooth(){
  alert("Подключите JBL через настройки Bluetooth iPhone.");
 }
 
-function showSettings(){
- alert("EDIT 2.0. Тестовая версия. Подписка 20 MDL пока не подключена.");
+function showSettings() {
+  const choice = prompt(
+    "НАСТРОЙКИ EDIT 3.0\n\n" +
+    "1 — Голос\n" +
+    "2 — Bluetooth\n" +
+    "3 — Gmail\n" +
+    "4 — Подписка\n" +
+    "5 — Моё имя\n\n" +
+    "Введите номер настройки:"
+  );
+
+  if (choice === "1") {
+    const rate = prompt(
+      "Скорость голоса (от 0.5 до 2):",
+      localStorage.getItem("edit_voice_rate") || "1"
+    );
+
+    if (rate !== null) {
+      const value = Number(rate);
+      if (value >= 0.5 && value <= 2) {
+        localStorage.setItem("edit_voice_rate", String(value));
+        alert("Скорость голоса сохранена!");
+      } else {
+        alert("Введите число от 0.5 до 2.");
+      }
+    }
+  }
+
+  else if (choice === "2") {
+    alert(
+      "Подключите Bluetooth-наушники или колонку " +
+      "через настройки устройства. " +
+      "EDIT сможет воспроизводить звук через них."
+    );
+  }
+
+  else if (choice === "3") {
+    alert("Подключение Gmail появится после настройки входа через Google.");
+  }
+
+  else if (choice === "4") {
+    alert("Подписка EDIT Pro пока не подключена.");
+  }
+
+  else if (choice === "5") {
+    const name = prompt(
+      "Как тебя зовут?",
+      localStorage.getItem("edit_user_name") || "Моисей"
+    );
+
+    if (name && name.trim()) {
+      localStorage.setItem("edit_user_name", name.trim());
+      alert("Имя сохранено: " + name.trim());
+    }
+  }
 }
 </script>
 </body>
