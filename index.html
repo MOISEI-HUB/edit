@@ -342,8 +342,23 @@ function showSettings() {
   }
 
   else if (choice === "4") {
-    alert("Подписка EDIT Pro пока не подключена.");
-  }
+    const email = prompt("EDIT Pro — регистрация\nВведите свой email:");
+
+    if (email === null) return;
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+        alert("Введите правильный email.");
+        return;
+    }
+
+    localStorage.setItem("edit_user_email", email.trim());
+
+    alert(
+        "Email сохранён: " + email.trim() +
+        "\nПодписка EDIT Pro — 20 леев в месяц." +
+        "\nОплата пока не подключена."
+    );
+}
 
   else if (choice === "5") {
     const name = prompt(
