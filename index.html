@@ -1,213 +1,296 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>EDIT — Искусственный интеллект</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+background:linear-gradient(160deg,#fff,#e8edff);
+color:#182454;
+text-align:center;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(160deg, #ffffff, #e8edff);
-  min-height: 100vh;
-  color: #182454;
-  text-align: center;
+.app{
+max-width:430px;
+min-height:100dvh;
+margin:auto;
+padding:35px 20px;
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
-.app {
-  max-width: 430px;
-  min-height: 100vh;
-  margin: auto;
-  padding: 45px 20px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+h1{
+font-size:48px;
+color:#293caa;
+margin:20px 0 5px;
+letter-spacing:3px;
 }
 
-h1 {
-  font-size: 48px;
-  color: #293caa;
-  margin: 20px 0 5px;
-  letter-spacing: 3px;
+.subtitle{color:#53649b}
+
+.wave{
+height:100px;
+margin-top:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:5px;
 }
 
-.subtitle {
-  font-size: 17px;
-  color: #53649b;
+.wave span{
+width:6px;
+height:20px;
+border-radius:10px;
+background:linear-gradient(#25b9ff,#8954ee);
 }
 
-.wave {
-  width: 100%;
-  height: 110px;
-  margin-top: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+.wave.active span{
+animation:move 1s infinite alternate;
 }
 
-.wave span {
-  width: 6px;
-  height: 25px;
-  border-radius: 10px;
-  background: linear-gradient(#25b9ff, #8954ee);
-  animation: wave 1s ease-in-out infinite;
-  animation-play-state: paused;
+.wave span:nth-child(2n){animation-delay:.2s}
+.wave span:nth-child(3n){animation-delay:.4s}
+
+@keyframes move{
+from{height:15px}
+to{height:75px}
 }
 
-.wave.active span {
-  animation-play-state: running;
+.mic{
+margin-top:35px;
+width:145px;
+height:145px;
+border-radius:50%;
+border:5px solid #b7d9ff;
+background:linear-gradient(135deg,#19bbff,#7954ed);
+color:white;
+font-size:60px;
+box-shadow:0 0 35px #8aabff;
+cursor:pointer;
 }
 
-.wave span:nth-child(2n) {
-  animation-delay: .2s;
+.status{
+margin-top:25px;
+font-size:20px;
 }
 
-.wave span:nth-child(3n) {
-  animation-delay: .4s;
+.answer{
+margin-top:20px;
+padding:15px;
+font-size:17px;
+line-height:1.5;
+max-height:180px;
+overflow:auto;
 }
 
-@keyframes wave {
-  0%, 100% { height: 15px; }
-  50% { height: 80px; }
+.buttons{
+margin-top:auto;
+display:flex;
+gap:12px;
+padding-top:30px;
 }
 
-.mic {
-  margin-top: 55px;
-  width: 145px;
-  height: 145px;
-  border-radius: 50%;
-  border: 5px solid #b7d9ff;
-  background: linear-gradient(135deg, #19bbff, #7954ed);
-  color: white;
-  font-size: 65px;
-  cursor: pointer;
-  box-shadow: 0 0 35px #8aabff;
+.button{
+border:0;
+background:white;
+border-radius:18px;
+padding:17px;
+color:#334b90;
+box-shadow:0 4px 15px #d4dcf2;
 }
 
-.mic.active {
-  box-shadow: 0 0 55px #438cff;
-}
-
-.status {
-  margin-top: 35px;
-  font-size: 21px;
-}
-
-.buttons {
-  margin-top: auto;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding-top: 50px;
-}
-
-.button {
-  border: none;
-  background: white;
-  border-radius: 20px;
-  padding: 18px 12px;
-  min-width: 95px;
-  box-shadow: 0 4px 15px #d4dcf2;
-  color: #334b90;
-  font-size: 14px;
-}
-
-.note {
-  font-size: 12px;
-  color: #7884a7;
-  margin-top: 25px;
+.note{
+font-size:12px;
+color:#7884a7;
+margin-top:20px;
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <h1>EDIT</h1>
 <div class="subtitle">Искусственный интеллект</div>
 
 <div class="wave" id="wave">
-  <span></span><span></span><span></span>
-  <span></span><span></span><span></span>
-  <span></span><span></span><span></span>
-  <span></span><span></span><span></span>
+<span></span><span></span><span></span>
+<span></span><span></span><span></span>
+<span></span><span></span><span></span>
+<span></span><span></span><span></span>
 </div>
 
-<button class="mic" id="mic" onclick="toggleTalk()">
-🎙
-</button>
+<button class="mic" onclick="toggleTalk()">🎙</button>
 
 <div class="status" id="status">
 Нажмите, чтобы начать разговор
 </div>
 
+<div class="answer" id="answer"></div>
+
 <div class="buttons">
-  <button class="button" onclick="showInfo()">💬<br>Диалог</button>
-  <button class="button" onclick="showBluetooth()">ᛒ<br>JBL</button>
-  <button class="button" onclick="showSettings()">⚙️<br>Настройки</button>
+<button class="button" onclick="showHistory()">
+💬<br>Диалог
+</button>
+
+<button class="button" onclick="showBluetooth()">
+ᛒ<br>JBL
+</button>
+
+<button class="button" onclick="showSettings()">
+⚙️<br>Настройки
+</button>
 </div>
 
-<div class="note">EDIT • Демонстрация интерфейса</div>
+<div class="note">EDIT 2.0 • Голосовой помощник</div>
 
 </div>
 
 <script>
-let active = false;
-let stream = null;
+let recognition;
+let active=false;
+let speaking=false;
+let history=[];
 
-async function toggleTalk() {
-  const status = document.getElementById("status");
-  const mic = document.getElementById("mic");
-  const wave = document.getElementById("wave");
+const statusEl=document.getElementById("status");
+const answerEl=document.getElementById("answer");
+const wave=document.getElementById("wave");
 
-  if (!active) {
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({
-        audio: true
-      });
+const SpeechRecognition=
+window.SpeechRecognition||
+window.webkitSpeechRecognition;
 
-      active = true;
-      status.innerText = "Слушаю вас...";
-      mic.classList.add("active");
-      wave.classList.add("active");
+if(SpeechRecognition){
+ recognition=new SpeechRecognition();
+ recognition.lang="ru-RU";
+ recognition.continuous=false;
+ recognition.interimResults=false;
 
-    } catch (error) {
-      status.innerText = "Разрешите доступ к микрофону";
-    }
-  } else {
-    active = false;
+ recognition.onresult=function(event){
+  const question=event.results[0][0].transcript;
+  statusEl.innerText="Вы: "+question;
+  const response=getAnswer(question);
+  history.push("Вы: "+question+"\nEDIT: "+response);
+  speak(response);
+ };
 
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      stream = null;
-    }
+ recognition.onerror=function(event){
+  if(!active)return;
+  statusEl.innerText="Ошибка микрофона: "+event.error;
+ };
 
-    status.innerText = "Разговор завершён";
-    mic.classList.remove("active");
-    wave.classList.remove("active");
+ recognition.onend=function(){
+  if(active&&!speaking){
+   statusEl.innerText="Нажмите микрофон, чтобы продолжить";
   }
+ };
 }
 
-function showInfo() {
-  alert("История диалогов появится в следующей версии EDIT.");
+function toggleTalk(){
+ if(active){
+  active=false;
+  wave.classList.remove("active");
+  if(recognition)recognition.abort();
+  speechSynthesis.cancel();
+  statusEl.innerText="Разговор завершён";
+  return;
+ }
+
+ if(!recognition){
+  statusEl.innerText=
+  "Этот браузер не поддерживает распознавание речи.";
+  return;
+ }
+
+ active=true;
+ wave.classList.add("active");
+ listen();
 }
 
-function showBluetooth() {
-  alert("Подключите колонку JBL через настройки Bluetooth вашего iPhone.");
+function listen(){
+ if(!active||speaking)return;
+ try{
+  statusEl.innerText="Слушаю вас...";
+  recognition.start();
+ }catch(e){
+  statusEl.innerText="Нажмите микрофон ещё раз";
+ }
 }
 
-function showSettings() {
-  alert("EDIT — голосовой ИИ. Подписка: 20 MDL/месяц. Функция оплаты пока не подключена.");
+function getAnswer(question){
+ const q=question.toLowerCase();
+
+ if(q.includes("привет"))
+  return "Привет! Я EDIT. Рад с вами поговорить.";
+
+ if(q.includes("как дела"))
+  return "У меня всё хорошо. Спасибо, что спросили!";
+
+ if(q.includes("как тебя зовут"))
+  return "Меня зовут EDIT. Я ваш голосовой помощник.";
+
+ if(q.includes("что ты умеешь"))
+  return "Я умею разговаривать и отвечать на простые вопросы. Мои возможности будут расширяться.";
+
+ if(q.includes("сколько времени"))
+  return "Сейчас "+new Date().toLocaleTimeString("ru-RU",
+  {hour:"2-digit",minute:"2-digit"});
+
+ if(q.includes("какое сегодня число")||
+    q.includes("какая сегодня дата"))
+  return "Сегодня "+new Date().toLocaleDateString("ru-RU",
+  {day:"numeric",month:"long",year:"numeric"});
+
+ if(q.includes("спасибо"))
+  return "Пожалуйста!";
+
+ return "Пока я не знаю ответа на этот вопрос. Для более сложных вопросов мне нужно подключить искусственный интеллект.";
+}
+
+function speak(text){
+ speaking=true;
+ answerEl.innerText=text;
+ statusEl.innerText="EDIT отвечает...";
+
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang="ru-RU";
+ utterance.rate=0.95;
+
+ utterance.onend=function(){
+  speaking=false;
+  if(active){
+   statusEl.innerText="Нажмите микрофон для следующего вопроса";
+  }
+ };
+
+ utterance.onerror=function(){
+  speaking=false;
+  statusEl.innerText="Не удалось воспроизвести ответ";
+ };
+
+ speechSynthesis.cancel();
+ speechSynthesis.speak(utterance);
+}
+
+function showHistory(){
+ alert(history.length?history.join("\n\n"):
+ "История разговоров пока пуста.");
+}
+
+function showBluetooth(){
+ alert("Подключите JBL через настройки Bluetooth iPhone.");
+}
+
+function showSettings(){
+ alert("EDIT 2.0. Тестовая версия. Подписка 20 MDL пока не подключена.");
 }
 </script>
-
 </body>
 </html>
