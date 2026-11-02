@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDIT — Искусственный интеллект</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(160deg, #ffffff, #e8edff);
+  min-height: 100vh;
+  color: #182454;
+  text-align: center;
+}
+
+.app {
+  max-width: 430px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 45px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 48px;
+  color: #293caa;
+  margin: 20px 0 5px;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  font-size: 17px;
+  color: #53649b;
+}
+
+.wave {
+  width: 100%;
+  height: 110px;
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.wave span {
+  width: 6px;
+  height: 25px;
+  border-radius: 10px;
+  background: linear-gradient(#25b9ff, #8954ee);
+  animation: wave 1s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.wave.active span {
+  animation-play-state: running;
+}
+
+.wave span:nth-child(2n) {
+  animation-delay: .2s;
+}
+
+.wave span:nth-child(3n) {
+  animation-delay: .4s;
+}
+
+@keyframes wave {
+  0%, 100% { height: 15px; }
+  50% { height: 80px; }
+}
+
+.mic {
+  margin-top: 55px;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  border: 5px solid #b7d9ff;
+  background: linear-gradient(135deg, #19bbff, #7954ed);
+  color: white;
+  font-size: 65px;
+  cursor: pointer;
+  box-shadow: 0 0 35px #8aabff;
+}
+
+.mic.active {
+  box-shadow: 0 0 55px #438cff;
+}
+
+.status {
+  margin-top: 35px;
+  font-size: 21px;
+}
+
+.buttons {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 50px;
+}
+
+.button {
+  border: none;
+  background: white;
+  border-radius: 20px;
+  padding: 18px 12px;
+  min-width: 95px;
+  box-shadow: 0 4px 15px #d4dcf2;
+  color: #334b90;
+  font-size: 14px;
+}
+
+.note {
+  font-size: 12px;
+  color: #7884a7;
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>EDIT</h1>
+<div class="subtitle">Искусственный интеллект</div>
+
+<div class="wave" id="wave">
+  <span></span><span></span><span></span>
+  <span></span><span></span><span></span>
+  <span></span><span></span><span></span>
+  <span></span><span></span><span></span>
+</div>
+
+<button class="mic" id="mic" onclick="toggleTalk()">
+🎙
+</button>
+
+<div class="status" id="status">
+Нажмите, чтобы начать разговор
+</div>
+
+<div class="buttons">
+  <button class="button" onclick="showInfo()">💬<br>Диалог</button>
+  <button class="button" onclick="showBluetooth()">ᛒ<br>JBL</button>
+  <button class="button" onclick="showSettings()">⚙️<br>Настройки</button>
+</div>
+
+<div class="note">EDIT • Демонстрация интерфейса</div>
+
+</div>
+
+<script>
+let active = false;
+let stream = null;
+
+async function toggleTalk() {
+  const status = document.getElementById("status");
+  const mic = document.getElementById("mic");
+  const wave = document.getElementById("wave");
+
+  if (!active) {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
+
+      active = true;
+      status.innerText = "Слушаю вас...";
+      mic.classList.add("active");
+      wave.classList.add("active");
+
+    } catch (error) {
+      status.innerText = "Разрешите доступ к микрофону";
+    }
+  } else {
+    active = false;
+
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      stream = null;
+    }
+
+    status.innerText = "Разговор завершён";
+    mic.classList.remove("active");
+    wave.classList.remove("active");
+  }
+}
+
+function showInfo() {
+  alert("История диалогов появится в следующей версии EDIT.");
+}
+
+function showBluetooth() {
+  alert("Подключите колонку JBL через настройки Bluetooth вашего iPhone.");
+}
+
+function showSettings() {
+  alert("EDIT — голосовой ИИ. Подписка: 20 MDL/месяц. Функция оплаты пока не подключена.");
+}
+</script>
+
+</body>
+</html>
