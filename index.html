@@ -233,11 +233,12 @@ async function getAnswer(question) {
         headers: {
           "Content-Type": "application/json"
         },
-       body: JSON.stringify({
-    question: question,
-    message: question
+       
+body: JSON.stringify({
+  question: question,
+  message: question
 })
-);
+});
 
     const data = await response.json();
 
